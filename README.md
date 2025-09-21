@@ -1,1 +1,1 @@
-# Logos
+# Logos ALL IMAGE FILES ARE CONVERTED TO PNG.
