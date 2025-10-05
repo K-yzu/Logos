@@ -28,9 +28,13 @@ jobs:
           IMAGE_URL=$(echo "$IMAGE_URL" | sed 's/ /%20/g')
 
           COMMIT_MSG="${{ github.event.head_commit.message }}"
-          COMMIT_MSG=$(echo "$COMMIT_MSG" | sed 's/"/\\"/g')
           COMMIT_URL="${{ github.event.head_commit.url }}"
 
-          curl -H "Content-Type: application/json" \
-            -d "{\"embeds\":[{\"title\":\"${COMMIT_MSG}\",\"url\":\"${IMAGE_URL}\",\"description\":\"[View Commit](${COMMIT_URL})\",\"color\":5814783,\"image\":{\"url\":\"${IMAGE_URL}\"},\"footer\":{\"text\":\"${{ github.repository }}\"}}]}" \
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PAYLOAD=$(jq -n \
+            --arg title "$COMMIT_MSG" \
+            --arg url "$IMAGE_URL" \
+            --arg desc "[View Commit]($COMMIT_URL)" \
+            --arg footer "${{ github.repository }}" \
+            '{embeds: [{title: $title, url: $url, description: $desc, color: 5814783, image: {url: $url}, footer: {text: $footer}}]}')
+
+          curl -H "Content-Type: application/json" -d "$PAYLOAD" ${{ secrets.DISCORD_WEBHOOK_URL }}
