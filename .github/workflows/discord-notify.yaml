@@ -19,22 +19,37 @@ jobs:
             **/*.jpg
             **/*.jpeg
             **/*.gif
+          separator: "|"
 
       - name: Send to Discord
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          IMAGE_PATH="${{ steps.changed-files.outputs.all_changed_files }}"
-          IMAGE_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/${IMAGE_PATH}"
-          IMAGE_URL=$(echo "$IMAGE_URL" | sed 's/ /%20/g')
-
+          ALL_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
           COMMIT_MSG="${{ github.event.head_commit.message }}"
           COMMIT_URL="${{ github.event.head_commit.url }}"
 
-          PAYLOAD=$(jq -n \
-            --arg title "$COMMIT_MSG" \
-            --arg url "$IMAGE_URL" \
-            --arg desc "[View Commit]($COMMIT_URL)" \
-            --arg footer "${{ github.repository }}" \
-            '{embeds: [{title: $title, url: $url, description: $desc, color: 5814783, image: {url: $url}, footer: {text: $footer}}]}')
+          # Set IFS to pipe to split on | instead of spaces
+          IFS='|'
 
-          curl -H "Content-Type: application/json" -d "$PAYLOAD" ${{ secrets.DISCORD_WEBHOOK_URL }}
+          # Loop through each image file
+          for IMAGE_PATH in $ALL_FILES; do
+            IMAGE_PATH=$(echo "$IMAGE_PATH" | sed 's/\\//g')
+
+            ENCODED_PATH=$(echo "$IMAGE_PATH" | sed 's/ /%20/g; s/:/%3A/g')
+
+            IMAGE_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/${ENCODED_PATH}"
+
+            echo "Sending image: $IMAGE_PATH"
+            echo "Image URL: $IMAGE_URL"
+
+            PAYLOAD=$(jq -n \
+              --arg title "$COMMIT_MSG" \
+              --arg url "$IMAGE_URL" \
+              --arg desc "[View Commit]($COMMIT_URL)" \
+              --arg footer "${{ github.repository }}" \
+              '{embeds: [{title: $title, url: $url, description: $desc, color: 5814783, image: {url: $url}, footer: {text: $footer}}]}')
+
+            curl -H "Content-Type: application/json" -d "$PAYLOAD" ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+            sleep 1
+          done
