@@ -1,5 +1,5 @@
 
-## 🖼️ Logo Repository by Kyzu
+## 🖼️ A Logo Repository by Kyzu
 
 ## ℹ️ About
 This is a logo repository for TV, Radio and Streaming services. 
