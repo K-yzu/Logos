@@ -13,6 +13,7 @@ This is a logo repository for TV, Radio and Streaming services.
 * This repository is for personal use only
 * I do not take any responsibility for what you do with the logos
 * No copyright infringement is intended. I do not own nor claim to own the rights to any of the logos. All rights belong to their respective owners.
+* By using a logo under a Creative Commons ShareAlike license (CC BY-SA or CC BY-NC-SA), you agree to give appropriate credit to the copyright holder and follow the license terms. If you remix or adapt the work, you must distribute your new creation under the same license terms (ShareAlike).
 * Contact me if you wish to have your logo removed or changed.
 
 ## 🔄 Updates
