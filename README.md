@@ -18,4 +18,4 @@
 If a channel provider changes/updates their logo or has a  rebrand, I will replace the original logo file with the updated version.
 
 ## 💬 Contact
-<p><a href="https://discordapp.com/users/196735204360978432"> <img align="left" src="https://upload.wikimedia.org/wikipedia/en/thumb/9/98/Discord_logo.svg/720px-Discord_logo.svg.png?20250916141658" height="50" width="210" /></a></p><br><br>
+<p><a href="https://discordapp.com/users/196735204360978432"> <img align="left" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d74e9607e61eeec9c91b_Logo.svg" height="50" width="210" /></a></p><br><br>
